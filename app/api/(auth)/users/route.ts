@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "../../../lib/db";
 import User from "../../../lib/modals/user";
+const ObjectId = require("mongoose").Types.ObjectId;
 
 export const GET = async () => {
   try {
