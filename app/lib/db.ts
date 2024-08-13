@@ -1,6 +1,20 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI!;
+
+if (!MONGODB_URI) {
+  throw new Error(
+    "Please define the MONGODB_URI environment variable inside .env.local"
+  );
+}
+declare global {
+  var mongoose: any;
+}
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 const connect = async () => {
   const connectionState = mongoose.connection.readyState;
 
@@ -14,7 +28,7 @@ const connect = async () => {
   }
 
   try {
-    mongoose.connect(MONGODB_URI!, {
+    await mongoose.connect(MONGODB_URI!, {
       dbName: "restapinext14",
       bufferCommands: false,
     });
