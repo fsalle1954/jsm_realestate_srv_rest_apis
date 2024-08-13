@@ -49,7 +49,7 @@ export const PATCH = async (request: Request) => {
 
     if (!userId || !newUsername) {
       return new NextResponse(
-        JSON.stringfy({ message: "ID or new username are requerid" }),
+        JSON.stringify({ message: "ID or new username are requerid" }),
         {
           status: 400,
         }
