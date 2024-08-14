@@ -90,6 +90,7 @@ export const PATCH = async (request: Request) => {
     const { noteId, title, description } = body;
 
     const { searchParams } = new URL(request.url);
+
     const userId = searchParams.get("userId");
 
     if (!noteId || !Types.ObjectId.isValid(noteId)) {
@@ -129,7 +130,7 @@ export const PATCH = async (request: Request) => {
         }
       );
     }
-    const updatedNotes = await Note.findByIdAndUpdate(
+    const updatedNote = await Note.findByIdAndUpdate(
       noteId,
       { title, description },
       { new: true }
@@ -137,6 +138,7 @@ export const PATCH = async (request: Request) => {
     return new NextResponse(
       JSON.stringify({
         message: "Note updated",
+        note: updatedNote,
       }),
       {
         status: 200,
