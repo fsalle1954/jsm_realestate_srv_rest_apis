@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "../../../lib/db";
 import Note from "../../../lib/modals/notes";
-// import { Types } from "mongoose";
 import { Types, Schema, model, models } from "mongoose";
-// import mongoose from "mongoose";
 import User from "../../../lib/modals/user";
 import { Anybody } from "next/font/google";
 
@@ -61,11 +59,6 @@ export const POST = async (request: Request) => {
         status: 404,
       });
     }
-    //const NoteSchema = new Schema({
-    //  title: { type: String, required: true },
-    //  description: { type: String },
-    //  user: { type: Schema.Types.ObjectId, ref: "User" },
-    // });
 
     const newNote = new Note({
       title,
