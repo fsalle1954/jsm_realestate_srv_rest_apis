@@ -3,7 +3,6 @@ import connect from "../../../lib/db";
 import Note from "../../../lib/modals/notes";
 import { Types, Schema, model, models } from "mongoose";
 import User from "../../../lib/modals/user";
-import { Anybody } from "next/font/google";
 
 export const GET = async (request: Request) => {
   try {
