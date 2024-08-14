@@ -1,1 +1,4 @@
-{}
+{
+  "/api/(dashboard)/notes/route": "app/api/(dashboard)/notes/route.js",
+  "/api/(auth)/users/route": "app/api/(auth)/users/route.js"
+}
