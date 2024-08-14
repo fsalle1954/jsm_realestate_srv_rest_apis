@@ -83,3 +83,72 @@ export const POST = async (request: Request) => {
     );
   }
 };
+
+export const PATCH = async (request: Request) => {
+  try {
+    const body = await request.json();
+    const { noteId, title, description } = body;
+
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+
+    if (!noteId || !Types.ObjectId.isValid(noteId)) {
+      return new NextResponse(
+        JSON.stringify({ message: "Invalid or missing noteId" }),
+        { status: 400 }
+      );
+    }
+
+    if (!userId || !Types.ObjectId.isValid(userId)) {
+      return new NextResponse(
+        JSON.stringify({ message: "Invalid or missing userId" }),
+        { status: 400 }
+      );
+    }
+    await connect();
+
+    // check if the user exists
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return new NextResponse(JSON.stringify({ message: "User not found" }), {
+        status: 404,
+      });
+    }
+
+    // Find the note and ensure it belongs to the user
+    const note = await Note.findOne({ _id: noteId, user: userId });
+    if (!note) {
+      return new NextResponse(
+        JSON.stringify({
+          message: "Note not found or does not belong to the user",
+        }),
+        {
+          status: 404,
+        }
+      );
+    }
+    const updatedNotes = await Note.findByIdAndUpdate(
+      noteId,
+      { title, description },
+      { new: true }
+    );
+    return new NextResponse(
+      JSON.stringify({
+        message: "Note updated",
+      }),
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({
+        message: "Error in updating note",
+        error,
+      }),
+      { status: 500 }
+    );
+  }
+};
