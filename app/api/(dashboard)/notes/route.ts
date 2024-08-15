@@ -157,7 +157,7 @@ export const PATCH = async (request: Request) => {
 export const DELETE = async (request: Request) => {
   try {
     const { searchParams } = new URL(request.url);
-    const noteId = searchParams.get("notelId");
+    const noteId = searchParams.get("noteId");
     const userId = searchParams.get("userId");
 
     if (!userId || !Types.ObjectId.isValid(userId)) {
